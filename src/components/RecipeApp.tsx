@@ -7,8 +7,8 @@ interface Recipe {
     instructions:string;
 }
 const RecipeApp = () => {
-    const handleUpdateRecipie = 
-    const {recipes,addRecipe,removeRecipe}= useStore();
+
+    const {recipes,addRecipe,removeRecipe} = useStore();
     const [name,setName] = useState<string>('');
     const [ingredients,setIngredients] = useState<string>('');
     const [instructions,setInstructions] = useState<string>('');
@@ -90,11 +90,11 @@ const RecipeApp = () => {
             <div className="flex justify-between">
                 {editingRecipe ? (
                     <>
-                        <button onClick={handleUpdateRecipie} className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 focus:outline-none foucs_ring-2 focus:ring-amber-400">Update Recipie</button>
+                        <button onClick={handleUpdateRecipe} className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 focus:outline-none foucs_ring-2 focus:ring-amber-400">Update Recipie</button>
                         <button onClick={handleCancelEdit} className="bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none foucs_ring-2 focus:ring-gray-400">Cancel</button>
                     </>
                 ): ( <>
-                    <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none foucs:ring-2 foucs:ring-green-500">Add Recipie</button>
+                    <button onClick={handleAddRecipe} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none foucs:ring-2 focus:ring-green-500">Add Recipie</button>
                 
                 </>)}
             </div>
@@ -109,7 +109,7 @@ const RecipeApp = () => {
                             <strong>Ingredients</strong> {recipe.ingredients.join(",")}
                         </p>
                         <div className="flex justify-between">
-                            <button onClick={() => handleEditingRecipe(recipe)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Edit</button>
+                            <button onClick={() => handleEditRecipe(recipe)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Edit</button>
                             <button onClick={()=> removeRecipe(recipe.id)} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
                         </div>
                     </li>
