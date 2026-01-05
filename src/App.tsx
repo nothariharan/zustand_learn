@@ -1,8 +1,10 @@
+import ExpenseTracker from "./components/ExpenseTracker"
 import RecipeApp from "./components/RecipeApp"
 
 const App = () => {
   return (
-    <RecipeApp />
+    // <RecipeApp />
+    <ExpenseTracker />
   )
 }
 export default App
