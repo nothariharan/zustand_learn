@@ -1,83 +1,61 @@
+import React from 'react';
+
+// 1. Define the Field shape ONCE to avoid repetition
+interface FieldData {
+  label: string;
+  type: "text" | "number" | "password" | "textarea" | "date" | "file";
+  // Allow value to be a FileList or File for uploads, not just string
+  value: string | FileList | null; 
+}
+
 interface FormFieldProps {
-  field: {
-    label: string;
-    type: "text" | "number" | "password" | "textarea" | "date" | "file";
-    value: string;
-  };
+  field: FieldData;
   index: number;
-  onUpdate: (
-    index: number,
-    updatedField: {
-      label: string;
-      type: "text" | "number" | "password" | "textarea" | "date" | "file";
-      value: string;
-    }
-  ) => void;
+  onUpdate: (index: number, updatedField: FieldData) => void;
   onRemove: (index: number) => void;
 }
 
-const FormField: React.FC<FormFieldProps> = ({
-  field,
-  index,
-  onUpdate,
-  onRemove,
-}) => {
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    onUpdate(index, { ...field, value: e.target.value });
-  };
-
-  if (field.type === "textarea") {
-    return (
-      <div>
-        <label>
-          {field.label}
-          <textarea value={field.value} onChange={handleChange} />
-        </label>
-        <button type="button" onClick={() => onRemove(index)}>
-          Remove
-        </button>
-      </div>
-    );
-  }
-
-  if (field.type === "file") {
-    return (
-      <div>
-        <label>
-          {field.label}
+const FormField: React.FC<FormFieldProps> = ({ field, index, onUpdate, onRemove }) => {
+  
+  // 2. Render the specific input based on type
+  const renderInput = () => {
+    switch (field.type) {
+      case "textarea":
+        return (
+          <textarea
+            value={field.value as string}
+            onChange={(e) => onUpdate(index, { ...field, value: e.target.value })}
+          />
+        );
+      
+      case "file":
+        return (
           <input
             type="file"
-            onChange={(e) =>
-              onUpdate(index, {
-                ...field,
-                value: e.target.files
-                  ? Array.from(e.target.files)
-                      .map((file) => file.name)
-                      .join(", ")
-                  : "",
-              })
-            }
+            // File inputs should not have a 'value' prop controlled by React (unless empty string)
+            onChange={(e) => onUpdate(index, { ...field, value: e.target.files })} 
           />
-        </label>
-        <button type="button" onClick={() => onRemove(index)}>
-          Remove
-        </button>
-      </div>
-    );
-  }
+        );
 
+      default:
+        return (
+          <input
+            type={field.type}
+            value={field.value as string}
+            onChange={(e) => onUpdate(index, { ...field, value: e.target.value })}
+          />
+        );
+    }
+  };
+
+  // 3. Single render structure for the layout
   return (
-    <div>
+    <div className="form-field-container">
       <label>
-        {field.label}
-        <input
-          type={field.type}
-          value={field.type === "file" ? "" : field.value}
-          onChange={handleChange}
-        />
+        <span className="label-text">{field.label}</span>
+        {renderInput()}
       </label>
+      
       <button type="button" onClick={() => onRemove(index)}>
         Remove
       </button>
