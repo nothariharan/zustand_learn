@@ -3,6 +3,8 @@ import FormBuilder from "./components/FormBuilder"
 import Meals from "./components/Meals"
 import PasswordGenerator from "./components/PasswordGenerator"
 import RecipeApp from "./components/RecipeApp"
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const App = () => {
   return (
@@ -12,7 +14,8 @@ const App = () => {
     //   <PasswordGenerator/>
     // </div>
     // <Meals/>
-    <FormBuilder />
+    // <FormBuilder />
+    <div></div>
   )
 }
 export default App
